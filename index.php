@@ -14,30 +14,30 @@
 <body>
 <div class="container mt-5">
 
-    <h1>Trabajo final BD1 - (Título de su trabajo)</h1>
+    <h1>Trabajo final BD1 - (Feline Zen)</h1>
 
     <div class="informacion">
         <ul>
             <li><b>Materia:</b> Bases de Datos I</li>
             <li><b>Profesor:</b> Francisco Javier Moreno Arboleda</li>
             <li><b>Institución:</b> Universidad Nacional de Colombia sede Medellín</li>
-            <li><b>Semestre:</b> 2022-1</li>
+            <li><b>Semestre:</b> 2024-2</li>
         </ul>
     </div>
 
     <div class="integrantes">
         <h2>Integrantes</h2>
         <ul>
-            <li>Integrante 1</li>
-            <li>Integrante 2</li>
-            <li>Integrante 3</li>
+            <li>Juan David Trejos Gamboa</li>
+            <li>Maria Manuela Salamanca Murcia</li>
+            <li>Carolina Jaramillo Gomez</li>
         </ul>
     </div>
 
     <div class="modelo">
-        <h2>Modelo E-R (Lo pueden eliminar o poner su modelo análogo)</h2>
+        <h2>Modelo E-R</h2>
         <p></p>
-        <img src="modelo.png">
+        <img src="\modeloFeline.png">
     </div>
 
     <div class="enlaces">

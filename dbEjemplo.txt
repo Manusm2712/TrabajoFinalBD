@@ -1,23 +1,75 @@
 CREATE TABLE cliente(
-  cedula INT(10) PRIMARY KEY,
-  nombre VARCHAR(50) NOT NULL,
-  celular INT(10) NOT NULL
+	id NUMERIC(10) PRIMARY KEY,
+	nombre VARCHAR(50) NOT NULL
 );
 
-CREATE TABLE empresa(
-  nit INT(10) PRIMARY KEY,
-  nombre VARCHAR(50) NOT NULL,
-  presupuesto INT(10) NOT NULL,
-  cliente INT(10),
-  FOREIGN KEY(cliente) REFERENCES cliente
+CREATE TABLE cupon(
+	codigo NUMERIC(10) PRIMARY KEY , 
+	valor_descuento NUMERIC(6) NOT NULL,
+	estado VARCHAR(8) NOT NULL CHECK (estado = 'activo' OR estado = 'inactivo'),
+	fecha_vencimiento DATE NOT NULL,
+	id_cliente NUMERIC(10) REFERENCES cliente(id)
 );
 
-CREATE TABLE proyecto(
-  codigo INT(10) PRIMARY KEY,
-  fechacreacion DATE NOT NULL,
-  valor INT(10) NOT NULL,
-  cliente INT(10),
-  empresa INT(10),
-  FOREIGN KEY(cliente) REFERENCES cliente,
-  FOREIGN KEY(empresa) REFERENCES empresa
+CREATE TABLE gato(
+	id NUMERIC(10) PRIMARY KEY,
+	nombre VARCHAR(50) NOT NULL,
+	raza VARCHAR(6) NOT NULL,
+	fecha_nacimiento DATE NOT NULL,
+	id_cliente NUMERIC(10) NOT NULL REFERENCES cliente (id)
+);
+
+CREATE TABLE pelo_largo(
+	id_gato NUMERIC(10) PRIMARY KEY REFERENCES gato(id),
+	frecuencia_cepillado VARCHAR(6) NOT NULL
+);
+
+CREATE TABLE pelo_corto(
+	id_gato NUMERIC(10) PRIMARY KEY REFERENCES gato(id),
+	nivel_humectacion VARCHAR(6) NOT NULL
+);
+
+
+CREATE TABLE reserva(
+	codigo NUMERIC(10) PRIMARY KEY,
+	fecha DATE NOT NULL,
+	hora VARCHAR(6) NOT NULL,
+	estado VARCHAR(8) NOT NULL CHECK (estado = 'activo' OR estado = 'inactivo'),
+	id_gato NUMERIC(10) NOT NULL REFERENCES gato(id)
+);
+
+CREATE TABLE servicio(
+	nombre VARCHAR(10) PRIMARY KEY,
+	duracion VARCHAR(10) NOT NULL,
+	precio NUMERIC(6) NOT NULL,
+	nombre_servicio VARCHAR(10) REFERENCES servicio(nombre)
+);
+
+CREATE TABLE mantenimiento(
+	nombre VARCHAR(10) PRIMARY KEY,
+	descripcion VARCHAR(20) NOT NULL UNIQUE,
+	duracion VARCHAR(10) NOT NULL,
+	fecha DATE NOT NULL
+);
+
+CREATE TABLE detallereserva(
+	codigo_reserva NUMERIC(10) REFERENCES reserva(codigo),
+	nombre_servicio VARCHAR(10) REFERENCES servicio(nombre),
+	PRIMARY KEY(codigo_reserva, nombre_servicio)
+);
+
+CREATE TABLE empleado(
+	id NUMERIC(10) PRIMARY KEY,
+	nombre VARCHAR(10) NOT NULL,
+	nombre_mantenimiento VARCHAR(10) REFERENCES mantenimiento(nombre),
+	nombre_servicio VARCHAR(10) REFERENCES servicio(nombre),
+	CHECK ((nombre_mantenimiento IS NULL AND nombre_servicio IS NOT NULL) OR (nombre_mantenimiento IS NOT NULL AND nombre_servicio IS NULL))
+);
+CREATE TABLE recurso(
+	codigo NUMERIC(10) PRIMARY KEY,
+	nombre VARCHAR(10) NOT NULL,
+	cantidad_inventario NUMERIC(6) NOT NULL,
+	nombre_mantenimiento VARCHAR(10) REFERENCES mantenimiento(nombre),
+	nombre_servicio VARCHAR(10) REFERENCES servicio(nombre),
+	CHECK ((nombre_mantenimiento IS NULL AND nombre_servicio IS NOT NULL) OR (nombre_mantenimiento IS NOT NULL AND nombre_servicio IS NULL))
 );
