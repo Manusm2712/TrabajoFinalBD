@@ -7,6 +7,6 @@ require('../config/conexion.php');
 $query = "SELECT * FROM cliente";
 
 // Ejecutar la consulta
-$resultadoCliente = mysqli_query($conn, $query) or die(mysqli_error($conn));
+$resultadoCupon = mysqli_query($conn, $query) or die(mysqli_error($conn));
 
 mysqli_close($conn);

@@ -3,7 +3,7 @@ include "../includes/header.php";
 ?>
 
 <!-- TÍTULO. Cambiarlo, pero dejar especificada la analogía -->
-<h1 class="mt-3">Entidad análoga a PROYECTO (NOMBRE)</h1>
+<h1 class="mt-3">Entidad análoga a REPARACION (SERVICIO)</h1>
 
 <!-- FORMULARIO. Cambiar los campos de acuerdo a su trabajo -->
 <div class="formulario p-4 m-3 border rounded-3">
@@ -11,41 +11,41 @@ include "../includes/header.php";
     <form action="proyecto_insert.php" method="post" class="form-group">
 
         <div class="mb-3">
-            <label for="codigo" class="form-label">Código</label>
-            <input type="number" class="form-control" id="codigo" name="codigo" required>
+            <label for="nombre" class="form-label">Nombre</label>
+            <input type="nombre" class="form-control" id="nombre" name="codigo" required>
         </div>
 
         <div class="mb-3">
-            <label for="fechacreacion" class="form-label">Fecha de creación</label>
-            <input type="date" class="form-control" id="fechacreacion" name="fechacreacion" required>
+            <label for="fecha" class="form-label">Fecha del servicio</label>
+            <input type="date" class="form-control" id="fechacreacion" name="fecha" required>
         </div>
 
         <div class="mb-3">
-            <label for="valor" class="form-label">Valor</label>
-            <input type="number" class="form-control" id="valor" name="valor" required>
+            <label for="precio" class="form-label">Precio</label>
+            <input type="number" class="form-control" id="precio" name="precio" required>
         </div>
         
-        <!-- Consultar la lista de clientes y desplegarlos -->
+        <!-- Consultar la lista de cupones y desplegarlos -->
         <div class="mb-3">
-            <label for="cliente" class="form-label">Cliente</label>
-            <select name="cliente" id="cliente" class="form-select">
+            <label for="cupon" class="form-label">Cupon</label>
+            <select name="cupon" id="cupon" class="form-select">
                 
                 <!-- Option por defecto -->
                 <option value="" selected disabled hidden></option>
 
                 <?php
                 // Importar el código del otro archivo
-                require("../cliente/cliente_select.php");
+                require("../cupon/cupon_select.php");
                 
                 // Verificar si llegan datos
-                if($resultadoCliente):
+                if($resultadoCupon):
                     
                     // Iterar sobre los registros que llegaron
-                    foreach ($resultadoCliente as $fila):
+                    foreach ($resultadoCupon as $fila):
                 ?>
 
                 <!-- Opción que se genera -->
-                <option value="<?= $fila["cedula"]; ?>"><?= $fila["nombre"]; ?> - C.C. <?= $fila["cedula"]; ?></option>
+                <option value="<?= $fila["codigo"]; ?>"><?= $fila["valor_descuento"]; ?> - C.C. <?= $fila["codigo"]; ?></option>
 
                 <?php
                         // Cerrar los estructuras de control
