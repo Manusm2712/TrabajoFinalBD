@@ -8,7 +8,7 @@ include "../includes/header.php";
 <!-- FORMULARIO. Cambiar los campos de acuerdo a su trabajo -->
 <div class="formulario p-4 m-3 border rounded-3">
 
-    <form action="empresa_insert.php" method="post" class="form-group">
+    <form action="cupon_insert.php" method="post" class="form-group">
 
         <div class="mb-3">
             <label for="codigo" class="form-label">Codigo</label>
@@ -37,7 +37,7 @@ include "../includes/header.php";
         <!-- Consultar la lista de clientes y desplegarlos -->
         <div class="mb-3">
             <label for="cliente" class="form-label">Cliente</label>
-            <select name="cliente" id="cliente" class="form-select">
+            <select name="id_cliente" id="id_cliente" class="form-select">
                 
                 <!-- Option por defecto -->
                 <option value="" selected disabled hidden></option>
@@ -54,7 +54,7 @@ include "../includes/header.php";
                 ?>
 
                 <!-- Opción que se genera -->
-                <option value="<?= $fila["id"]; ?>"><?= $fila["nombre"]; ?> - C.C. <?= $fila["cedula"]; ?></option>
+                <option value="<?= $fila["id"]; ?>"><?= $fila["nombre"]; ?> - C.C. <?= $fila["id"]; ?></option>
 
                 <?php
                         // Cerrar los estructuras de control
