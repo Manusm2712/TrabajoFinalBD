@@ -106,9 +106,9 @@ if($resultadoCupon and $resultadoCupon->num_rows > 0):
                 <!-- Cada una de las columnas, con su valor correspondiente -->
                 <td class="text-center"><?= $fila["codigo"]; ?></td>
                 <td class="text-center"><?= $fila["valor_descuento"]; ?></td>
-                <td class="text-center">$<?= $fila["informacion"]; ?></td>
-                <td class="text-center">C.C. <?= $fila["estado"]; ?></td>
-                <td class="text-center">C.C. <?= $fila["id_cliente"]; ?></td>
+                <td class="text-center"><?= $fila["informacion"]; ?></td>
+                <td class="text-center"><?= $fila["estado"]; ?></td>
+                <td class="text-center"><?= $fila["id_cliente"]; ?></td>
             </tr>
 
             <?php
