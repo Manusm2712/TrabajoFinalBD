@@ -5,7 +5,12 @@ include "../includes/header.php";
 <h1 class="mt-3">Búsqueda 1</h1>
 
 <p class="mt-3">
-    Recibe el código de un cupón y un rango de fechas (es decir, dos fechas f1 y f2 
+    La cédula de un mecánico y un rango de fechas (es decir, dos fechas f1 y f2
+    (cada fecha con día, mes y año) y f2 &gt;= f1). Se debe mostrar el valor total de las
+    reparaciones correspondientes a ese mecánico durante ese rango de fechas.
+
+<p class="mt-3">
+    Para nuestro trabajo: El código de un cupón y un rango de fechas (es decir, dos fechas f1 y f2 
     (cada fecha con día, mes y año) y f2 &gt;= f1). Se debe mostrar el precio total de los
     servicios correspondientes a ese cupón durante ese rango de fechas.
 </p>

@@ -3,11 +3,15 @@ include "../includes/header.php";
 ?>
 
 <!-- TÍTULO. Cambiarlo, pero dejar especificada la analogía -->
-<h1 class="mt-3">Consulta: Top 3 Servicios Más Caros</h1>
+<p class="mt-3">
+El primer botón debe mostrar los datos de las tres reparaciones de mayor valor junto con los datos de los mecánicos asociados a cada una de estas reparaciones (en caso de empates, usted decide cómo proceder).
+</p>
 
 <p class="mt-3">
-Esta consulta muestra los tres servicios más costosos registrados en la base de datos, junto con la información de los cupones asociados a dichos servicios.
+Para nuestro trabajo: Esta consulta muestra los tres servicios más costosos registrados en la base de datos, junto con los datos de los cupones asociados a dichos servicios.
 </p>
+<h1 class="mt-3">Consulta 1: Top 3 Servicios Más Costosos</h1>
+
 
 <?php
 // Crear conexión con la BD
@@ -15,11 +19,16 @@ require('../config/conexion.php');
 
 // Query SQL para obtener los tres servicios más caros con sus cupones asociados
 $query = "SELECT s.codigo_servicio, s.precio, 
-                 c.codigo AS codigo_cupon, c.estado, c.valor_descuento, c.informacion
-          FROM servicio s
-          INNER JOIN cupon c ON s.codigo_cupon = c.codigo
-          ORDER BY s.precio DESC
-          LIMIT 3";
+                 c.codigo AS codigo_cupon, c.estado, c.valor_descuento, c.informacion  
+          -- Selecciona la tabla de servicios
+          FROM servicio s 
+          -- Relaciona las tablas por el código del cupón
+          INNER JOIN cupon c ON s.codigo_cupon = c.codigo  
+          -- Ordena los servicios de forma descendente por precio
+          ORDER BY s.precio DESC 
+          -- Los registros empatados estan en orden aleatorio
+          LIMIT 3"; 
+          
 
 // Ejecutar la consulta
 $resultadoC1 = mysqli_query($conn, $query) or die(mysqli_error($conn));

@@ -11,7 +11,7 @@ include "../includes/header.php";
     <form action="servicio_insert.php" method="post" class="form-group">
 
         <div class="mb-3">
-            <label for="codigo_servicio" class="form-label">Codigo de servicio</label>
+            <label for="codigo_servicio" class="form-label">Código de servicio</label>
             <input type="number" class="form-control" id="codigo_servicio" name="codigo_servicio" required>
         </div>
 
@@ -27,7 +27,7 @@ include "../includes/header.php";
         
         <!-- Consultar la lista de cupones y desplegarlos -->
         <div class="mb-3">
-            <label for="cupon" class="form-label">Cupon</label>
+            <label for="cupon" class="form-label">Código del Cupón</label>
             <select name="codigo_cupon" id="cupon" class="form-select">
                 
                 <!-- Option por defecto -->
@@ -45,7 +45,7 @@ include "../includes/header.php";
                 ?>
 
                 <!-- Opción que se genera -->
-                <option value="<?= $fila["codigo"]; ?>"><?= $fila["valor_descuento"]; ?> - ID <?= $fila["codigo"]; ?></option>
+                <option value="<?= $fila["codigo"]; ?>">Código: <?= $fila["codigo"]; ?> - Descuento: <?= $fila["valor_descuento"]; ?></option>
 
                 <?php
                         // Cerrar los estructuras de control
@@ -75,7 +75,7 @@ include "../includes/header.php";
             ?>
 
             <!-- Opción que se genera -->
-            <option value="<?= $fila["codigo_servicio"]; ?>"><?= $fila["fecha"]; ?> - Nombre: <?= $fila["codigo_servicio"]; ?></option>
+            <option value="<?= $fila["codigo_servicio"]; ?>">Código: <?= $fila["codigo_servicio"]; ?> - Fecha: <?= $fila["fecha"]; ?></option>
 
             <?php
                 // Cerrar las estructuras de control

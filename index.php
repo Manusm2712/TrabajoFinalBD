@@ -29,7 +29,7 @@
         <h2>Integrantes</h2>
         <ul>
             <li>Juan David Trejos Gamboa</li>
-            <li>Maria Manuela Salamanca Murcia</li>
+            <li>María Manuela Salamanca Murcia</li>
             <li>Carolina Jaramillo Gomez</li>
         </ul>
     </div>

@@ -3,7 +3,7 @@ include "../includes/header.php";
 ?>
 
 <!-- TÍTULO. Cambiarlo, pero dejar especificada la analogía -->
-<h1 class="mt-3">Entidad análoga a MECANICO (CUPON)</h1>
+<h1 class="mt-3">Entidad análoga a MECANICO (CUPÓN)</h1>
 
 <!-- FORMULARIO. Cambiar los campos de acuerdo a su trabajo -->
 <div class="formulario p-4 m-3 border rounded-3">
@@ -11,7 +11,7 @@ include "../includes/header.php";
     <form action="cupon_insert.php" method="post" class="form-group">
 
         <div class="mb-3">
-            <label for="codigo" class="form-label">Codigo</label>
+            <label for="codigo" class="form-label">Código</label>
             <input type="number" class="form-control" id="codigo" name="codigo" required>
         </div>
 
@@ -21,12 +21,12 @@ include "../includes/header.php";
         </div>
 
         <div class="mb-3">
-            <label for="informacion" class="form-label">Informacion del cupon</label>
+            <label for="informacion" class="form-label">Información del cupón</label>
             <input type="text" class="form-control" id="informacion" name="informacion" required>
         </div>
 
         <div class="mb-3">
-            <label for="estado" class="form-label">Estado del cupon</label>
+            <label for="estado" class="form-label">Estado del cupón</label>
             <select class="form-select" id="estado" name="estado" required>
             <option value="" selected disabled hidden></option>
             <option value="activo">Activo</option>
@@ -86,9 +86,9 @@ if($resultadoCupon and $resultadoCupon->num_rows > 0):
         <!-- Títulos de la tabla, cambiarlos -->
         <thead class="table-dark">
             <tr>
-                <th scope="col" class="text-center">Codigo</th>
+                <th scope="col" class="text-center">Código</th>
                 <th scope="col" class="text-center">Valor de descuento</th>
-                <th scope="col" class="text-center">Informacion</th>
+                <th scope="col" class="text-center">Información</th>
                 <th scope="col" class="text-center">Estado</th>
                 <th scope="col" class="text-center">Cliente asociado</th>
             </tr>
@@ -96,17 +96,22 @@ if($resultadoCupon and $resultadoCupon->num_rows > 0):
 
         <tbody>
 
-            <?php
+        <?php
             // Iterar sobre los registros que llegaron
             foreach ($resultadoCupon as $fila):
+                $informacion = htmlspecialchars($fila["informacion"], ENT_QUOTES, 'UTF-8');
+                
+                // Verificar si la información es una URL válida
+                if (filter_var($informacion, FILTER_VALIDATE_URL)) {
+                    $informacion = "<a href='$informacion' target='_blank'>$informacion</a>";
+                }
             ?>
 
             <!-- Fila que se generará -->
             <tr>
-                <!-- Cada una de las columnas, con su valor correspondiente -->
                 <td class="text-center"><?= $fila["codigo"]; ?></td>
                 <td class="text-center"><?= $fila["valor_descuento"]; ?></td>
-                <td class="text-center"><?= $fila["informacion"]; ?></td>
+                <td class="text-center"><?= $informacion; ?></td>
                 <td class="text-center"><?= $fila["estado"]; ?></td>
                 <td class="text-center"><?= $fila["id_cliente"]; ?></td>
             </tr>
