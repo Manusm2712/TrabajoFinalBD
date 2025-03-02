@@ -18,15 +18,14 @@ usted decide cómo proceder).
 require('../config/conexion.php');
 
 // Query SQL a la BD -> Crearla acá (No está completada, cambiarla a su contexto y a su analogía)
-$query = "SELECT id, nombre FROM cliente
-                WHERE EXISTS(
-                    SELECT codigo, id_cliente FROM cupon
-                    WHERE id_cliente = id AND
-                    EXISTS(
-                        SELECT codigo_cupon FROM servicio
-                        WHERE codigo_cupon = codigo
-                        )
-                    )";
+$query = "SELECT c.id, c.nombre, COUNT(s.codigo_servicio) AS total_servicios
+                FROM cliente c
+                JOIN cupon cu ON cu.id_cliente = c.id
+                JOIN servicio s ON s.codigo_cupon = cu.codigo
+                GROUP BY c.id, c.nombre
+                ORDER BY total_servicios DESC
+                LIMIT 2;
+";
 
 // Ejecutar la consulta
 $resultadoC2 = mysqli_query($conn, $query) or die(mysqli_error($conn));
