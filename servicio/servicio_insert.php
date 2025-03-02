@@ -4,9 +4,9 @@
 require('../config/conexion.php');
 
 // Sacar los datos del formulario. Cada input se identifica con su "name"
-$codigo = $_POST["codigo"];
-$fechacreacion = $_POST["fechacreacion"];
-$valor = $_POST["valor"];
+$nombre = $_POST["nombre"];
+$fechacreacion = $_POST["fecha"];
+$valor = $_POST["precio"];
 $cliente = $_POST["cliente"];
 $empresa = $_POST["empresa"];
 

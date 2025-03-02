@@ -1,19 +1,23 @@
-CREATE TABLE cliente(
-	id NUMERIC(10) PRIMARY KEY,
-	nombre VARCHAR(50) NOT NULL
+CREATE TABLE cliente (
+    id INT(10) PRIMARY KEY,
+    nombre VARCHAR(50) NOT NULL
 );
 
-CREATE TABLE cupon(
-	codigo NUMBER(10) PRIMARY KEY , 
-	valor_descuento NUMBER(6) NOT NULL,
-	fecha_emision DATE NOT NULL,
-	fecha_vencimiento DATE NOT NULL,
-	id_cliente NUMBER(10) REFERENCES cliente
+CREATE TABLE cupon (
+    codigo INT(10) PRIMARY KEY, 
+    valor_descuento INT(6) NOT NULL,
+    informacion VARCHAR(100) NOT NULL,
+    estado ENUM('activo', 'inactivo') NOT NULL,
+    id_cliente INT(10),
+    FOREIGN KEY (id_cliente) REFERENCES cliente(id)
 );
 
-CREATE TABLE servicio(
-	nombre VARCHAR(10) PRIMARY KEY,
-	duracion VARCHAR(10) NOT NULL,
-	precio NUMERIC(6) NOT NULL,
-	nombre_servicio VARCHAR(10) REFERENCES servicio(nombre)
+CREATE TABLE servicio (
+    nombre VARCHAR(10) PRIMARY KEY,
+    fecha DATE NOT NULL,
+    precio INT(6) NOT NULL,
+    pre_servicio VARCHAR(10),
+    codigo_cupon INT(10),
+    FOREIGN KEY (pre_servicio) REFERENCES servicio(nombre),
+    FOREIGN KEY (codigo_cupon) REFERENCES cupon(codigo)
 );
