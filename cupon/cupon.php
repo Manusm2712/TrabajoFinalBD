@@ -44,7 +44,7 @@ include "../includes/header.php";
 
                 <?php
                 // Importar el código del otro archivo
-                require("../cliente/cliente_select.php");
+                require "../cliente/cliente_select.php";
                 
                 // Verificar si llegan datos
                 if($resultadoCliente):
@@ -72,7 +72,7 @@ include "../includes/header.php";
 
 <?php
 // Importar el código del otro archivo
-require("cupon_select.php");
+require "cupon_select.php";
 
 // Verificar si llegan datos
 if($resultadoCupon and $resultadoCupon->num_rows > 0):
