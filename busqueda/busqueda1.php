@@ -23,8 +23,27 @@ include "../includes/header.php";
         </div>
 
         <div class="mb-3">
-            <label for="codigo" class="form-label">Código cupón</label>
-            <input type="text" class="form-control" id="codigo" name="codigo" required>
+            <label for="cupon" class="form-label">Cupón</label>
+            <select name="codigo_cupon" id="cupon" class="form-select" required>
+                <option value="" selected disabled hidden>Seleccione un cupón</option>
+
+                <?php
+                // Conectar con la base de datos
+                require('../config/conexion.php');
+
+                // Consulta para obtener los cupones disponibles
+                $query_cupones = "SELECT codigo FROM cupon";
+                $resultado_cupones = mysqli_query($conn, $query_cupones);
+
+                // Iterar sobre los cupones y mostrarlos en el select
+                while ($cupon = mysqli_fetch_assoc($resultado_cupones)) {
+                    echo "<option value='{$cupon['codigo']}'>{$cupon['codigo']}</option>";
+                }
+
+                // Cerrar conexión temporalmente
+                mysqli_close($conn);
+                ?>
+            </select>
         </div>
 
         <button type="submit" class="btn btn-primary">Buscar</button>
@@ -32,51 +51,80 @@ include "../includes/header.php";
 </div>
 
 <?php
+// Verificar si la solicitud es POST
 if ($_SERVER['REQUEST_METHOD'] === 'POST'):
+    
+    // Conectar con la base de datos
     require('../config/conexion.php');
 
-    // Validar y sanitizar los datos de entrada
+    // Obtener los datos del formulario
     $fecha1 = $_POST["fecha1"];
     $fecha2 = $_POST["fecha2"];
-    $codigo = trim($_POST["codigo"]);
+    $codigo_cupon = $_POST["codigo_cupon"];
 
-    if ($fecha2 < $fecha1) {
-        echo '<div class="alert alert-danger text-center mt-5">La fecha 2 debe ser mayor o igual a la fecha 1.</div>';
-    } else {
-        // Usar Prepared Statements para evitar inyección SQL
-        $query = "SELECT SUM(precio) AS precio_total FROM servicio WHERE codigo = ? AND fecha BETWEEN ? AND ?";
-        $stmt = $conn->prepare($query);
-        $stmt->bind_param("sss", $codigo, $fecha1, $fecha2);
-        $stmt->execute();
-        $resultadoB1 = $stmt->get_result();
+    // Consulta SQL para obtener los servicios dentro del rango de fechas para el cupón seleccionado
+    $query = "SELECT s.codigo_servicio, s.fecha, s.codigo_cupon, s.precio
+    FROM servicio s
+    INNER JOIN cupon c ON s.codigo_cupon = c.codigo
+    WHERE s.codigo_cupon = '$codigo_cupon'
+    AND s.fecha BETWEEN '$fecha1' AND '$fecha2'";
 
-        // Cerrar la conexión
-        $stmt->close();
-        $conn->close();
+    // Ejecutar la consulta
+    $resultado = mysqli_query($conn, $query) or die(mysqli_error($conn));
 
-        // Mostrar los resultados
-        if ($resultadoB1 && $fila = $resultadoB1->fetch_assoc()):
+    // Verificar si hay resultados
+    if ($resultado && mysqli_num_rows($resultado) > 0):
 ?>
-            <div class="tabla mt-5 mx-3 rounded-3 overflow-hidden">
-                <table class="table table-striped table-bordered">
-                    <thead class="table-dark">
-                        <tr>
-                            <th scope="col" class="text-center">Precio Total</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td class="text-center"><?= number_format($fila["precio_total"], 2); ?></td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
+
+<!-- TABLA PARA MOSTRAR LOS CUPONES Y SERVICIOS -->
+<div class="tabla mt-5 mx-3 rounded-3 overflow-hidden">
+    <table class="table table-striped table-bordered">
+        <thead class="table-dark">
+            <tr>
+                <th scope="col" class="text-center">Código de Servicio</th>
+                <th scope="col" class="text-center">Fecha del Servicio</th>
+                <th scope="col" class="text-center">Código de Cupón</th>
+            </tr>
+        </thead>
+        <tbody>
+            <?php
+            // Iterar sobre los registros obtenidos
+            while ($fila = mysqli_fetch_assoc($resultado)):
+            ?>
+            <tr>
+                <td class="text-center"><?= $fila["codigo_servicio"]; ?></td>
+                <td class="text-center"><?= $fila["fecha"]; ?></td>
+                <td class="text-center"><?= $fila["codigo_cupon"]; ?></td>
+            </tr>
+            <?php endwhile; ?>
+        </tbody>
+    </table>
+</div>
+
+<!-- MOSTRAR PRECIO TOTAL -->
+<div class="alert alert-info text-center mt-3">
+    <?php
+    // Obtener el total de la consulta anterior
+    $fila_total = mysqli_fetch_assoc(mysqli_query($conn, "SELECT SUM(precio) AS precio_total FROM servicio WHERE codigo_cupon = '$codigo_cupon' AND fecha BETWEEN '$fecha1' AND '$fecha2'"));
+    echo "Precio total de los servicios: $" . number_format($fila_total["precio_total"], 2);
+    ?>
+</div>
+
 <?php
-        else:
-            echo '<div class="alert alert-danger text-center mt-5">No se encontraron resultados para esta consulta</div>';
-        endif;
-    }
+    else:
+?>
+
+<!-- MENSAJE DE ERROR SI NO HAY RESULTADOS -->
+<div class="alert alert-danger text-center mt-5">
+    No se encontraron resultados para esta consulta.
+</div>
+
+<?php
+    endif;
+    // Cerrar conexión
+    mysqli_close($conn);
 endif;
 
 include "../includes/footer.php";
 ?>
+
