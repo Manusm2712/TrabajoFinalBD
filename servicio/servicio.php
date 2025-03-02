@@ -128,8 +128,8 @@ if($resultadoProyecto and $resultadoProyecto->num_rows > 0):
                 <td class="text-center"><?= $fila["nombre"]; ?></td>
                 <td class="text-center"><?= $fila["fecha"]; ?></td>
                 <td class="text-center">$<?= $fila["precio"]; ?></td>
-                <td class="text-center">Codigo cupon <?= $fila["cupon"]; ?></td>
-                <td class="text-center">pre_servicio: <?= $fila["servicio"]; ?></td>
+                <td class="text-center">Codigo cupon <?= $fila["codigo_cupon"]; ?></td>
+                <td class="text-center">pre_servicio: <?= $fila["pre_servicio"]; ?></td>
 
             </tr>
 
