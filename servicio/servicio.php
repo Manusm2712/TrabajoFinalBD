@@ -11,8 +11,8 @@ include "../includes/header.php";
     <form action="servicio_insert.php" method="post" class="form-group">
 
         <div class="mb-3">
-            <label for="nombre" class="form-label">Nombre</label>
-            <input type="text" class="form-control" id="nombre" name="nombre" required>
+            <label for="codigo_servicio" class="form-label">Codigo de servicio</label>
+            <input type="number" class="form-control" id="codigo_servicio" name="codigo_servicio" required>
         </div>
 
         <div class="mb-3">
@@ -75,7 +75,7 @@ include "../includes/header.php";
             ?>
 
             <!-- Opción que se genera -->
-            <option value="<?= $fila["nombre"]; ?>"><?= $fila["fecha"]; ?> - Nombre: <?= $fila["nombre"]; ?></option>
+            <option value="<?= $fila["codigo_servicio"]; ?>"><?= $fila["fecha"]; ?> - Nombre: <?= $fila["codigo_servicio"]; ?></option>
 
             <?php
                 // Cerrar las estructuras de control
@@ -107,7 +107,7 @@ if($resultadoServicio and $resultadoServicio->num_rows > 0):
         <!-- Títulos de la tabla, cambiarlos -->
         <thead class="table-dark">
             <tr>
-                <th scope="col" class="text-center">Nombre</th>
+                <th scope="col" class="text-center">Codigo de servicio</th>
                 <th scope="col" class="text-center">Fecha del servicio</th>
                 <th scope="col" class="text-center">Precio</th>
                 <th scope="col" class="text-center">Cupon</th>
@@ -125,7 +125,7 @@ if($resultadoServicio and $resultadoServicio->num_rows > 0):
             <!-- Fila que se generará -->
             <tr>
                 <!-- Cada una de las columnas, con su valor correspondiente -->
-                <td class="text-center"><?= $fila["nombre"]; ?></td>
+                <td class="text-center"><?= $fila["codigo_servicio"]; ?></td>
                 <td class="text-center"><?= $fila["fecha"]; ?></td>
                 <td class="text-center">$<?= $fila["precio"]; ?></td>
                 <td class="text-center"><?= $fila["codigo_cupon"]; ?></td>

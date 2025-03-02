@@ -4,7 +4,7 @@
 require('../config/conexion.php');
 
 // Sacar los datos del formulario. Cada input se identifica con su "name"
-$nombre = $_POST["nombre"];
+$codigo_servicio = $_POST["codigo_servicio"];
 $fecha = $_POST["fecha"];
 $precio = $_POST["precio"];
 $pre_servicio = $_POST["pre_servicio"];
@@ -18,7 +18,7 @@ if(empty($pre_servicio)) {
 }
 
 // Query SQL a la BD - asegúrese que el nombre de la tabla sea correcto (servicio en lugar de proyecto)
-$query = "INSERT INTO `servicio` (`nombre`, `fecha`, `precio`, `pre_servicio`, `codigo_cupon`) VALUES ('$nombre', '$fecha', '$precio', $pre_servicio, $codigo_cupon)";
+$query = "INSERT INTO `servicio` (`codigo_servicio`, `fecha`, `precio`, `pre_servicio`, `codigo_cupon`) VALUES ('$codigo_servicio', '$fecha', '$precio', $pre_servicio, $codigo_cupon)";
 
 // Ejecutar consulta
 $result = mysqli_query($conn, $query) or die(mysqli_error($conn));
