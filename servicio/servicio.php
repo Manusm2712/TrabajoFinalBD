@@ -8,16 +8,16 @@ include "../includes/header.php";
 <!-- FORMULARIO. Cambiar los campos de acuerdo a su trabajo -->
 <div class="formulario p-4 m-3 border rounded-3">
 
-    <form action="proyecto_insert.php" method="post" class="form-group">
+    <form action="servicio_insert.php" method="post" class="form-group">
 
         <div class="mb-3">
             <label for="nombre" class="form-label">Nombre</label>
-            <input type="nombre" class="form-control" id="nombre" name="codigo" required>
+            <input type="text" class="form-control" id="nombre" name="nombre" required>
         </div>
 
         <div class="mb-3">
             <label for="fecha" class="form-label">Fecha del servicio</label>
-            <input type="date" class="form-control" id="fechacreacion" name="fecha" required>
+            <input type="date" class="form-control" id="fecha" name="fecha" required>
         </div>
 
         <div class="mb-3">
@@ -28,14 +28,14 @@ include "../includes/header.php";
         <!-- Consultar la lista de cupones y desplegarlos -->
         <div class="mb-3">
             <label for="cupon" class="form-label">Cupon</label>
-            <select name="cupon" id="cupon" class="form-select">
+            <select name="codigo_cupon" id="cupon" class="form-select">
                 
                 <!-- Option por defecto -->
                 <option value="" selected disabled hidden></option>
 
                 <?php
                 // Importar el código del otro archivo
-                require("../cupon/cupon_select.php");
+                require "../cupon/cupon_select.php";
                 
                 // Verificar si llegan datos
                 if($resultadoCupon):
@@ -58,30 +58,30 @@ include "../includes/header.php";
         <!-- Consultar la lista de pre-servicios y desplegarlos -->
         <div class="mb-3">
             <label for="pre-servicio" class="form-label">Pre-servicio</label>
-            <select name="pre-servicio" id="pre-servicio" class="form-select">
+            <select name="pre_servicio" id="pre-servicio" class="form-select">
+            
+            <!-- Option por defecto -->
+            <option value="" selected>No requiere pre-servicio</option>
+
+            <?php
+            // Importar el código del otro archivo
+            require "servicio_select.php";
+            
+            // Verificar si llegan datos
+            if($resultadoServicio and $resultadoServicio->num_rows > 0):
                 
-                <!-- Option por defecto -->
-                <option value="" selected disabled hidden></option>
+                // Iterar sobre los registros que llegaron
+                foreach ($resultadoServicio as $fila):
+            ?>
 
-                <?php
-                // Importar el código del otro archivo
-                require("../pre-servicio/pre-servicio_select.php");
-                
-                // Verificar si llegan datos
-                if($resultadoPreServicio):
-                    
-                    // Iterar sobre los registros que llegaron
-                    foreach ($resultadoPreServicio as $fila):
-                ?>
+            <!-- Opción que se genera -->
+            <option value="<?= $fila["nombre"]; ?>"><?= $fila["fecha"]; ?> - Nombre: <?= $fila["nombre"]; ?></option>
 
-                <!-- Opción que se genera -->
-                <option value="<?= $fila["codigo"]; ?>"><?= $fila["nombre"]; ?> - C.C. <?= $fila["codigo"]; ?></option>
-
-                <?php
-                        // Cerrar los estructuras de control
-                    endforeach;
-                endif;
-                ?>
+            <?php
+                // Cerrar las estructuras de control
+                endforeach;
+            endif;
+            ?>
             </select>
         </div>
 
@@ -93,10 +93,10 @@ include "../includes/header.php";
 
 <?php
 // Importar el código del otro archivo
-require("proyecto_select.php");
+require "servicio_select.php";
             
 // Verificar si llegan datos
-if($resultadoProyecto and $resultadoProyecto->num_rows > 0):
+if($resultadoServicio and $resultadoServicio->num_rows > 0):
 ?>
 
 <!-- MOSTRAR LA TABLA. Cambiar las cabeceras -->
@@ -119,7 +119,7 @@ if($resultadoProyecto and $resultadoProyecto->num_rows > 0):
 
             <?php
             // Iterar sobre los registros que llegaron
-            foreach ($resultadoProyecto as $fila):
+            foreach ($resultadoServicio as $fila):
             ?>
 
             <!-- Fila que se generará -->
@@ -128,8 +128,8 @@ if($resultadoProyecto and $resultadoProyecto->num_rows > 0):
                 <td class="text-center"><?= $fila["nombre"]; ?></td>
                 <td class="text-center"><?= $fila["fecha"]; ?></td>
                 <td class="text-center">$<?= $fila["precio"]; ?></td>
-                <td class="text-center">Codigo cupon <?= $fila["codigo_cupon"]; ?></td>
-                <td class="text-center">pre_servicio: <?= $fila["pre_servicio"]; ?></td>
+                <td class="text-center"><?= $fila["codigo_cupon"]; ?></td>
+                <td class="text-center"><?= $fila["pre_servicio"]; ?></td>
 
             </tr>
 
