@@ -6,9 +6,8 @@ include "../includes/header.php";
 <h1 class="mt-3">Búsqueda 2</h1>
 
 <p class="mt-3">
-    Dos números enteros n1 y n2, n1 ≥ 0, n2 > n1. Se debe mostrar el nit y el 
-    nombre de todas las empresas que han revisado entre n1 y n2 proyectos
-    (intervalo cerrado [n1, n2]).
+Al ingrear el código de un taller. Se debe mostrar todos los datos de las reparaciones de
+ese taller han requerido garantía.
 </p>
 
 <!-- FORMULARIO. Cambiar los campos de acuerdo a su trabajo -->
@@ -18,13 +17,8 @@ include "../includes/header.php";
     <form action="busqueda2.php" method="post" class="form-group">
 
         <div class="mb-3">
-            <label for="numero1" class="form-label">Numero 1</label>
-            <input type="number" class="form-control" id="numero1" name="numero1" required>
-        </div>
-
-        <div class="mb-3">
-            <label for="numero2" class="form-label">Numero 2</label>
-            <input type="number" class="form-control" id="numero2" name="numero2" required>
+            <label for="id" class="form-label">ID cliente</label>
+            <input type="number" class="form-control" id="id" name="id" required>
         </div>
 
         <button type="submit" class="btn btn-primary">Buscar</button>
@@ -40,11 +34,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST'):
     // Crear conexión con la BD
     require('../config/conexion.php');
 
-    $numero1 = $_POST["numero1"];
-    $numero2 = $_POST["numero2"];
+    $id = $_POST["id"];
 
     // Query SQL a la BD -> Crearla acá (No está completada, cambiarla a su contexto y a su analogía)
-    $query = "SELECT nit, nombre FROM empresa";
+    $query = "SELECT * FROM servicio
+                    WHERE pre_servicio IS NOT NULL
+                    AND EXISTS(
+                        SELECT codigo FROM cupon
+                        WHERE codigo_cupon = codigo
+                        AND id_cliente = '$id'
+                    )";
 
     // Ejecutar la consulta
     $resultadoB2 = mysqli_query($conn, $query) or die(mysqli_error($conn));
@@ -63,8 +62,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST'):
         <!-- Títulos de la tabla, cambiarlos -->
         <thead class="table-dark">
             <tr>
-                <th scope="col" class="text-center">Cédula</th>
-                <th scope="col" class="text-center">Celular</th>
+            <th scope="col" class="text-center">Nombre</th>
+            <th scope="col" class="text-center">Fecha del servicio</th>
+            <th scope="col" class="text-center">Precio</th>
+            <th scope="col" class="text-center">Cupon</th>
+            <th scope="col" class="text-center">Pre-servicio</th>
             </tr>
         </thead>
 
@@ -78,8 +80,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST'):
             <!-- Fila que se generará -->
             <tr>
                 <!-- Cada una de las columnas, con su valor correspondiente -->
-                <td class="text-center"><?= $fila["cedula"]; ?></td>
-                <td class="text-center"><?= $fila["celular"]; ?></td>
+                <td class="text-center"><?= $fila["nombre"]; ?></td>
+                <td class="text-center"><?= $fila["fecha"]; ?></td>
+                <td class="text-center">$<?= $fila["precio"]; ?></td>
+                <td class="text-center"><?= $fila["codigo_cupon"]; ?></td>
+                <td class="text-center"><?= $fila["pre_servicio"]; ?></td>
             </tr>
 
             <?php
