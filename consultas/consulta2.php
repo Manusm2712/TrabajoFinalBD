@@ -9,6 +9,8 @@ include "../includes/header.php";
 El segundo botón debe mostrar el código y el nombre de los talleres de los
 dos talleres que tienen la mayor cantidad de reparaciones (en caso de empates,
 usted decide cómo proceder).
+
+
 </p>
 
 <?php
@@ -16,7 +18,15 @@ usted decide cómo proceder).
 require('../config/conexion.php');
 
 // Query SQL a la BD -> Crearla acá (No está completada, cambiarla a su contexto y a su analogía)
-$query = "SELECT id, nombre FROM cliente";
+$query = "SELECT id, nombre FROM cliente
+                WHERE EXISTS(
+                    SELECT codigo, id_cliente FROM cupon
+                    WHERE id_cliente = id AND
+                    EXISTS(
+                        SELECT codigo_cupon FROM servicio
+                        WHERE codigo_cupon = codigo
+                        )
+                    )";
 
 // Ejecutar la consulta
 $resultadoC2 = mysqli_query($conn, $query) or die(mysqli_error($conn));
@@ -37,7 +47,7 @@ if($resultadoC2 and $resultadoC2->num_rows > 0):
         <!-- Títulos de la tabla, cambiarlos -->
         <thead class="table-dark">
             <tr>
-                <th scope="col" class="text-center">Cédula</th>
+                <th scope="col" class="text-center">ID</th>
                 <th scope="col" class="text-center">Nombre</th>
             </tr>
         </thead>
@@ -52,7 +62,7 @@ if($resultadoC2 and $resultadoC2->num_rows > 0):
             <!-- Fila que se generará -->
             <tr>
                 <!-- Cada una de las columnas, con su valor correspondiente -->
-                <td class="text-center"><?= $fila["cedula"]; ?></td>
+                <td class="text-center"><?= $fila["id"]; ?></td>
                 <td class="text-center"><?= $fila["nombre"]; ?></td>
             </tr>
 

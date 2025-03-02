@@ -45,7 +45,7 @@ include "../includes/header.php";
                 ?>
 
                 <!-- Opción que se genera -->
-                <option value="<?= $fila["codigo"]; ?>"><?= $fila["valor_descuento"]; ?> - C.C. <?= $fila["codigo"]; ?></option>
+                <option value="<?= $fila["codigo"]; ?>"><?= $fila["valor_descuento"]; ?> - ID <?= $fila["codigo"]; ?></option>
 
                 <?php
                         // Cerrar los estructuras de control

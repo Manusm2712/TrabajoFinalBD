@@ -62,7 +62,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST'):
         <!-- Títulos de la tabla, cambiarlos -->
         <thead class="table-dark">
             <tr>
-            <th scope="col" class="text-center">Nombre</th>
+            <th scope="col" class="text-center">Codigo servicio</th>
             <th scope="col" class="text-center">Fecha del servicio</th>
             <th scope="col" class="text-center">Precio</th>
             <th scope="col" class="text-center">Cupon</th>
@@ -80,7 +80,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST'):
             <!-- Fila que se generará -->
             <tr>
                 <!-- Cada una de las columnas, con su valor correspondiente -->
-                <td class="text-center"><?= $fila["nombre"]; ?></td>
+                <td class="text-center"><?= $fila["codigo_servicio"]; ?></td>
                 <td class="text-center"><?= $fila["fecha"]; ?></td>
                 <td class="text-center">$<?= $fila["precio"]; ?></td>
                 <td class="text-center"><?= $fila["codigo_cupon"]; ?></td>
