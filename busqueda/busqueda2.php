@@ -8,7 +8,8 @@ include "../includes/header.php";
 <p class="mt-3">
 Al ingrear el código de un taller. Se debe mostrar todos los datos de las reparaciones de
 ese taller han requerido garantía.
-
+</p>
+<p class="mt-3">
 Para nuestro problema: Al ingrear el id de un cliente. Se debe mostrar todos los datos de los servicios de
 ese cliente que han requerido pre-servicios.
 </p>

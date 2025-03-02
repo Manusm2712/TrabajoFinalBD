@@ -9,7 +9,8 @@ include "../includes/header.php";
 El segundo botón debe mostrar el código y el nombre de los talleres de los
 dos talleres que tienen la mayor cantidad de reparaciones (en caso de empates,
 usted decide cómo proceder).
-
+</p>
+<p class="mt-3">
 Para nuestro problema: 
 El segundo botón debe mostrar el id y el nombre de los clientes de los
 dos clientes que tienen la mayor cantidad de servicios contratados (en caso de empates,
