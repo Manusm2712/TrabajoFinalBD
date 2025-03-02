@@ -3,22 +3,23 @@ include "../includes/header.php";
 ?>
 
 <!-- TÍTULO. Cambiarlo, pero dejar especificada la analogía -->
-<h1 class="mt-3">Consulta 1</h1>
+<h1 class="mt-3">Consulta: Top 3 Servicios Más Caros</h1>
 
 <p class="mt-3">
-    Sea sumavalor la suma de los valores de todos los proyectos asociados con un cliente.
-    El primer botón debe mostrar la cédula y el nombre de cada uno de los clientes 
-    que cumple todas las siguientes condiciones: es gerente, tiene sumavalor > 1000,
-    ha revisado al menos 3 proyectos y la empresa que gerencia no ha revisado ni un
-    solo proyecto.
+Esta consulta muestra los tres servicios más costosos registrados en la base de datos, junto con la información de los cupones asociados a dichos servicios.
 </p>
 
 <?php
 // Crear conexión con la BD
 require('../config/conexion.php');
 
-// Query SQL a la BD -> Crearla acá (No está completada, cambiarla a su contexto y a su analogía)
-$query = "SELECT cedula, nombre FROM cliente";
+// Query SQL para obtener los tres servicios más caros con sus cupones asociados
+$query = "SELECT s.codigo_servicio, s.precio, 
+                 c.codigo AS codigo_cupon, c.estado, c.valor_descuento, c.informacion
+          FROM servicio s
+          INNER JOIN cupon c ON s.codigo_cupon = c.codigo
+          ORDER BY s.precio DESC
+          LIMIT 3";
 
 // Ejecutar la consulta
 $resultadoC1 = mysqli_query($conn, $query) or die(mysqli_error($conn));
@@ -28,7 +29,7 @@ mysqli_close($conn);
 
 <?php
 // Verificar si llegan datos
-if($resultadoC1 and $resultadoC1->num_rows > 0):
+if ($resultadoC1 and $resultadoC1->num_rows > 0):
 ?>
 
 <!-- MOSTRAR LA TABLA. Cambiar las cabeceras -->
@@ -36,11 +37,15 @@ if($resultadoC1 and $resultadoC1->num_rows > 0):
 
     <table class="table table-striped table-bordered">
 
-        <!-- Títulos de la tabla, cambiarlos -->
+        <!-- Títulos de la tabla -->
         <thead class="table-dark">
             <tr>
-                <th scope="col" class="text-center">Cédula</th>
-                <th scope="col" class="text-center">Nombre</th>
+                <th scope="col" class="text-center">Código Servicio</th>
+                <th scope="col" class="text-center">Precio Servicio</th>
+                <th scope="col" class="text-center">Código Cupón</th>
+                <th scope="col" class="text-center">Estado</th>
+                <th scope="col" class="text-center">Descuento</th>
+                <th scope="col" class="text-center">Información</th>
             </tr>
         </thead>
 
@@ -53,13 +58,15 @@ if($resultadoC1 and $resultadoC1->num_rows > 0):
 
             <!-- Fila que se generará -->
             <tr>
-                <!-- Cada una de las columnas, con su valor correspondiente -->
-                <td class="text-center"><?= $fila["cedula"]; ?></td>
-                <td class="text-center"><?= $fila["nombre"]; ?></td>
+                <td class="text-center"><?= htmlspecialchars($fila["codigo_servicio"]); ?></td>
+                <td class="text-center">$<?= number_format($fila["precio"], 2); ?></td>
+                <td class="text-center"><?= htmlspecialchars($fila["codigo_cupon"]); ?></td>
+                <td class="text-center"><?= htmlspecialchars($fila["estado"]); ?></td>
+                <td class="text-center">$<?= number_format($fila["valor_descuento"], 2); ?></td>
+                <td class="text-center"><?= htmlspecialchars($fila["informacion"]); ?></td>
             </tr>
 
             <?php
-            // Cerrar los estructuras de control
             endforeach;
             ?>
 
